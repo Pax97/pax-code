@@ -1,14 +1,47 @@
+# Source files
+src/**
+*.ts
+tsconfig.json
+
+# Build configs
+esbuild.js
+eslint.config.mjs
+.eslintrc*
+
+# Development files
 .vscode/**
 .vscode-test/**
-out/**
 node_modules/**
-src/**
+out/**
+
+# Git
+.git/**
 .gitignore
-.yarnrc
-esbuild.js
+.gitattributes
+
+# Documentation for development
 vsc-extension-quickstart.md
-**/tsconfig.json
-**/eslint.config.mjs
+.yarnrc
+.npmrc
+
+# Test files
+**/*.test.ts
+**/*.test.js
+**/test/**
+
+# Lock files (optional - package.json is enough)
+yarn.lock
+package-lock.json
+
+# CI/CD
+.github/**
+
+# Editor files
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Map files
 **/*.map
-**/*.ts
-**/.vscode-test.*

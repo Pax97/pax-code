@@ -1,18 +1,36 @@
+# Dependencies
+node_modules/
+
+# Build output
+out/
+dist/
+
+# VS Code extension package
+*.vsix
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+
+# IDE
+.idea/
+*.sublime-*
+
+# Test output
+.vscode-test/
+coverage/
+
 # Logs
-logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Dependency directories
-node_modules/
-
-# Build output
-out/
-styles/
-
-# Auto-generated theme file
-!temp/.gitkeep
-flag.txt
-*.vsix
+# Environment
+.env
+.env.local

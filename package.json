@@ -1,15 +1,43 @@
 {
   "name": "pax-code",
   "displayName": "Pax Code",
-  "description": "Theme and Keyboard Shortcut",
-  "version": "0.0.1",
+  "description": "A beautiful dark theme and keyboard shortcuts reference panel for VS Code",
+  "version": "0.1.0",
+  "publisher": "sanglq",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sanglq/pax-code"
+  },
+  "bugs": {
+    "url": "https://github.com/sanglq/pax-code/issues"
+  },
+  "homepage": "https://github.com/sanglq/pax-code#readme",
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#1F1F1F",
+    "theme": "dark"
+  },
   "engines": {
-    "vscode": "^1.76.0"
+    "vscode": "^1.96.0"
   },
   "categories": [
-    "Themes"
+    "Themes",
+    "Keymaps",
+    "Other"
   ],
-  "activationEvents": [],
+  "keywords": [
+    "theme",
+    "dark theme",
+    "night theme",
+    "keyboard shortcuts",
+    "hotkeys",
+    "keybindings"
+  ],
+  "activationEvents": [
+    "onView:hotkeysView",
+    "onCommand:hotkeys.refresh"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "themes": [
@@ -24,12 +52,39 @@
         "path": "./themes/Night Theme Vidid-color-theme.json"
       }
     ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "hotkeysContainer",
+          "title": "Hotkeys",
+          "icon": "media/symbol-keyword.svg"
+        }
+      ]
+    },
+    "views": {
+      "hotkeysContainer": [
+        {
+          "id": "hotkeysView",
+          "name": "Hotkey List"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "pax-code.helloWorld",
-        "title": "Hello World"
+        "command": "hotkeys.refresh",
+        "title": "Refresh Hotkeys",
+        "category": "Hotkeys"
       }
-    ]
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "hotkeys.refresh",
+          "when": "view == hotkeysView",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",
@@ -46,9 +101,10 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.107.0",
+    "@types/vscode": "^1.96.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
+    "@vscode/vsce": "^3.2.2",
     "typescript-eslint": "^8.48.1",
     "eslint": "^9.39.1",
     "esbuild": "^0.27.1",

@@ -1,26 +1,114 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
+import * as fs from "fs";
+import * as path from "path";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "pax-code" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('pax-code.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Pax Code!');
-	});
-
-	context.subscriptions.push(disposable);
+interface HotkeyItemData {
+  group: string;
+  label: string;
+  key: string;
+  command: string;
 }
 
-// This method is called when your extension is deactivated
+export function activate(context: vscode.ExtensionContext) {
+  const provider = new HotkeysProvider(context);
+
+  vscode.window.registerTreeDataProvider("hotkeysView", provider);
+
+  const refreshCmd = vscode.commands.registerCommand("hotkeys.refresh", () => {
+    provider.refresh();
+  });
+
+  context.subscriptions.push(refreshCmd);
+}
+
 export function deactivate() {}
+
+class HotkeysProvider implements vscode.TreeDataProvider<HotkeyNode> {
+  private _onDidChangeTreeData = new vscode.EventEmitter<
+    HotkeyNode | undefined | void
+  >();
+  readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
+
+  private items: HotkeyItemData[] = [];
+
+  constructor(private context: vscode.ExtensionContext) {
+    this.loadHotkeys();
+  }
+
+  private async loadHotkeys() {
+    try {
+      const fileUri = vscode.Uri.joinPath(
+        this.context.extensionUri,
+        "hotkeys.json"
+      );
+      const bytes = await vscode.workspace.fs.readFile(fileUri);
+      const content = Buffer.from(bytes).toString("utf8");
+      this.items = JSON.parse(content) as HotkeyItemData[];
+    } catch (err) {
+      vscode.window.showErrorMessage(
+        `Cannot load hotkeys.json: ${String(err)}`
+      );
+      this.items = [];
+    }
+  }
+
+  refresh(): void {
+    this.loadHotkeys();
+    this._onDidChangeTreeData.fire();
+  }
+
+  getTreeItem(element: HotkeyNode): vscode.TreeItem {
+    return element;
+  }
+
+  getChildren(element?: HotkeyNode): Thenable<HotkeyNode[]> {
+    if (!element) {
+      // Level 1: group
+      const groups = Array.from(new Set(this.items.map((i) => i.group)));
+      const groupNodes = groups.map((group) => {
+        const node = new HotkeyNode(
+          group,
+          vscode.TreeItemCollapsibleState.Collapsed
+        );
+        node.isGroup = true;
+        node.group = group;
+        return node;
+      });
+      return Promise.resolve(groupNodes);
+    }
+
+    if (element.isGroup && element.group) {
+      // Level 2: items trong group
+      const children = this.items
+        .filter((i) => i.group === element.group)
+        .map((i) => {
+          const node = new HotkeyNode(
+            `(${i.key}) ${i.label}`,
+            vscode.TreeItemCollapsibleState.None
+          );
+          node.isGroup = false;
+          node.group = i.group;
+          node.keyBinding = i.key;
+          node.commandId = i.command;
+          return node;
+        });
+      return Promise.resolve(children);
+    }
+
+    return Promise.resolve([]);
+  }
+}
+
+class HotkeyNode extends vscode.TreeItem {
+  isGroup = false;
+  group?: string;
+  keyBinding?: string;
+  commandId?: string;
+
+  constructor(
+    label: string,
+    collapsibleState: vscode.TreeItemCollapsibleState
+  ) {
+    super(label, collapsibleState);
+  }
+}

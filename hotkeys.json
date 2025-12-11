@@ -1,0 +1,233 @@
+[
+  {
+    "group": "Font / Zoom",
+    "label": "Zoom in",
+    "key": "ctrl+=",
+    "command": "workbench.action.zoomIn"
+  },
+  {
+    "group": "Font / Zoom",
+    "label": "Zoom out",
+    "key": "ctrl+-",
+    "command": "workbench.action.zoomOut"
+  },
+  {
+    "group": "Font / Zoom",
+    "label": "Zoom reset",
+    "key": "ctrl+0",
+    "command": "workbench.action.zoomReset"
+  },
+
+  {
+    "group": "Font / Zoom",
+    "label": "Editor zoom in",
+    "key": "cmd+=",
+    "command": "editor.action.fontZoomIn",
+    "when": "editorTextFocus"
+  },
+  {
+    "group": "Font / Zoom",
+    "label": "Editor zoom out",
+    "key": "cmd+-",
+    "command": "editor.action.fontZoomOut",
+    "when": "editorTextFocus"
+  },
+  {
+    "group": "Font / Zoom",
+    "label": "Editor zoom reset",
+    "key": "cmd+0",
+    "command": "editor.action.fontZoomReset",
+    "when": "editorTextFocus"
+  },
+  {
+    "group": "Editor Tabs & Groups",
+    "label": "Tab 1 - 5",
+    "key": "cmd+1 - 5",
+    "command": "workbench.action.openEditorAtIndex1"
+  },
+  {
+    "group": "Editor Tabs & Groups",
+    "label": "Move next group",
+    "key": "ctrl+cmd+right",
+    "command": "workbench.action.moveEditorToNextGroup"
+  },
+  {
+    "group": "Editor Tabs & Groups",
+    "label": "Move prev group",
+    "key": "ctrl+cmd+left",
+    "command": "workbench.action.moveEditorToPreviousGroup"
+  },
+
+  {
+    "group": "Editor Tabs & Groups",
+    "label": "Focus next group",
+    "key": "ctrl+tab",
+    "command": "workbench.action.focusNextGroup"
+  },
+  {
+    "group": "Editor Tabs & Groups",
+    "label": "Focus prev group",
+    "key": "ctrl+shift+tab",
+    "command": "workbench.action.focusPreviousGroup"
+  },
+
+  {
+    "group": "Editor Tabs & Groups",
+    "label": "All editors",
+    "key": "cmd+p",
+    "command": "workbench.action.showAllEditors"
+  },
+  {
+    "group": "Explorer / Sidebar",
+    "label": "Toggle Explorer ",
+    "key": "cmd+e",
+    "command": "workbench.view.explorer"
+  },
+  {
+    "group": "Explorer / Sidebar",
+    "label": "Disable toggle Sidebar",
+    "key": "cmd+e",
+    "command": "-workbench.action.toggleSidebarVisibility",
+    "when": "explorerViewletVisible"
+  },
+
+  {
+    "group": "Explorer / Sidebar",
+    "label": "Focus Explorer",
+    "key": "cmd+shift+e",
+    "command": "workbench.view.explorer"
+  },
+
+  {
+    "group": "Explorer / Sidebar",
+    "label": "Open file",
+    "key": "enter",
+    "command": "list.select",
+    "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+  },
+  {
+    "group": "Explorer / Sidebar",
+    "label": "Delete file",
+    "key": "cmd+backspace",
+    "command": "deleteFile",
+    "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+  },
+  {
+    "group": "Explorer / Sidebar",
+    "label": "Rename file",
+    "key": "cmd+r",
+    "command": "renameFile",
+    "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+  },
+  {
+    "group": "Explorer / Sidebar",
+    "label": "New file",
+    "key": "cmd+n",
+    "command": "explorer.newFile",
+    "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+  },
+  {
+    "group": "Terminal",
+    "label": "Focus terminal",
+    "key": "ctrl+t",
+    "command": "workbench.action.terminal.focus",
+    "when": "!terminalFocus"
+  },
+  {
+    "group": "Terminal",
+    "label": "Focus editor",
+    "key": "ctrl+t",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "terminalFocus"
+  },
+
+  {
+    "group": "Terminal",
+    "label": "New terminal",
+    "key": "cmd+shift+t",
+    "command": "workbench.action.terminal.new"
+  },
+  {
+    "group": "Selection / Editing",
+    "label": "Col select ↑",
+    "key": "shift+alt+cmd+up",
+    "command": "cursorColumnSelectUp",
+    "when": "editorTextFocus"
+  },
+  {
+    "group": "Selection / Editing",
+    "label": "Col select ↓",
+    "key": "shift+alt+cmd+down",
+    "command": "cursorColumnSelectDown",
+    "when": "editorTextFocus"
+  },
+  {
+    "group": "Selection / Editing",
+    "label": "Col select ←",
+    "key": "shift+alt+cmd+left",
+    "command": "cursorColumnSelectLeft",
+    "when": "editorTextFocus"
+  },
+  {
+    "group": "Selection / Editing",
+    "label": "Col select →",
+    "key": "shift+alt+cmd+right",
+    "command": "cursorColumnSelectRight",
+    "when": "editorTextFocus"
+  },
+
+  {
+    "group": "Selection / Editing",
+    "label": "Format",
+    "key": "shift+alt+f",
+    "command": "editor.action.formatDocument",
+    "when": "editorHasDocumentFormattingProvider && editorTextFocus && !editorReadonly"
+  },
+
+  {
+    "group": "Selection / Editing",
+    "label": "Move ↓ x5",
+    "key": "ctrl+alt+down",
+    "command": "cursorMove",
+    "when": "editorTextFocus",
+    "args": { "to": "down", "by": "line", "value": 5 }
+  },
+  {
+    "group": "Selection / Editing",
+    "label": "Move ↑ x5",
+    "key": "ctrl+alt+up",
+    "command": "cursorMove",
+    "when": "editorTextFocus",
+    "args": { "to": "up", "by": "line", "value": 5 }
+  },
+
+  {
+    "group": "Selection / Editing",
+    "label": "Disable move ↓",
+    "key": "alt+down",
+    "command": "-editor.action.moveLinesDownAction",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "group": "Selection / Editing",
+    "label": "Disable move ↑",
+    "key": "alt+up",
+    "command": "-editor.action.moveLinesUpAction",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+
+  {
+    "group": "Selection / Editing",
+    "label": "Line below",
+    "key": "cmd+enter",
+    "command": "editor.action.insertLineAfter",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "group": "Selection / Editing",
+    "label": "Line above",
+    "key": "cmd+shift+enter",
+    "command": "editor.action.insertLineBefore",
+    "when": "editorTextFocus && !editorReadonly"
+  }
+]

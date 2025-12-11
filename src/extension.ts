@@ -1,6 +1,4 @@
 import * as vscode from "vscode";
-import * as fs from "fs";
-import * as path from "path";
 
 interface HotkeyItemData {
   group: string;
@@ -9,16 +7,41 @@ interface HotkeyItemData {
   command: string;
 }
 
+// Format key with macOS-style icons
+function formatKey(key: string): string {
+  const keyMap: Record<string, string> = {
+    cmd: "⌘",
+    alt: "⌥",
+    ctrl: "⌃",
+    shift: "⇧",
+    up: "↑",
+    down: "↓",
+    left: "←",
+    right: "→",
+    enter: "↵",
+    tab: "⇥",
+    backspace: "⌫",
+    space: "␣",
+    escape: "⎋",
+    esc: "⎋",
+  };
+
+  return key
+    .split("+")
+    .map((part) => {
+      const trimmed = part.trim().toLowerCase();
+      return keyMap[trimmed] || part.trim();
+    })
+    .join(" ");
+}
+
 export function activate(context: vscode.ExtensionContext) {
   const provider = new HotkeysProvider(context);
-
-  vscode.window.registerTreeDataProvider("hotkeysView", provider);
-
-  const refreshCmd = vscode.commands.registerCommand("hotkeys.refresh", () => {
-    provider.refresh();
+  const treeView = vscode.window.createTreeView("hotkeysView", {
+    treeDataProvider: provider,
   });
 
-  context.subscriptions.push(refreshCmd);
+  context.subscriptions.push(treeView);
 }
 
 export function deactivate() {}
@@ -30,6 +53,7 @@ class HotkeysProvider implements vscode.TreeDataProvider<HotkeyNode> {
   readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
 
   private items: HotkeyItemData[] = [];
+  private isLoaded = false;
 
   constructor(private context: vscode.ExtensionContext) {
     this.loadHotkeys();
@@ -44,17 +68,16 @@ class HotkeysProvider implements vscode.TreeDataProvider<HotkeyNode> {
       const bytes = await vscode.workspace.fs.readFile(fileUri);
       const content = Buffer.from(bytes).toString("utf8");
       this.items = JSON.parse(content) as HotkeyItemData[];
+      this.isLoaded = true;
+      // Notify tree view to refresh after data is loaded
+      this._onDidChangeTreeData.fire();
     } catch (err) {
       vscode.window.showErrorMessage(
         `Cannot load hotkeys.json: ${String(err)}`
       );
       this.items = [];
+      this.isLoaded = true;
     }
-  }
-
-  refresh(): void {
-    this.loadHotkeys();
-    this._onDidChangeTreeData.fire();
   }
 
   getTreeItem(element: HotkeyNode): vscode.TreeItem {
@@ -82,8 +105,9 @@ class HotkeysProvider implements vscode.TreeDataProvider<HotkeyNode> {
       const children = this.items
         .filter((i) => i.group === element.group)
         .map((i) => {
+          const formattedKey = formatKey(i.key);
           const node = new HotkeyNode(
-            `(${i.key}) ${i.label}`,
+            `( ${formattedKey} ) ⮕ ${i.label}`,
             vscode.TreeItemCollapsibleState.None
           );
           node.isGroup = false;

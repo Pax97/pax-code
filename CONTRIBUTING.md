@@ -151,3 +151,4 @@ convert -background none -resize 128x128 media/icon.svg media/icon.png
 
 Feel free to open an issue if you have any questions or need help getting started.
 
+

@@ -85,14 +85,6 @@
   },
   {
     "group": "Explorer / Sidebar",
-    "label": "Disable toggle Sidebar",
-    "key": "cmd+e",
-    "command": "-workbench.action.toggleSidebarVisibility",
-    "when": "explorerViewletVisible"
-  },
-
-  {
-    "group": "Explorer / Sidebar",
     "label": "Focus Explorer",
     "key": "cmd+shift+e",
     "command": "workbench.view.explorer"
@@ -203,14 +195,14 @@
 
   {
     "group": "Selection / Editing",
-    "label": "Disable move ↓",
+    "label": "Move to end file ↓",
     "key": "alt+down",
     "command": "-editor.action.moveLinesDownAction",
     "when": "editorTextFocus && !editorReadonly"
   },
   {
     "group": "Selection / Editing",
-    "label": "Disable move ↑",
+    "label": "Move to begin file ↑",
     "key": "alt+up",
     "command": "-editor.action.moveLinesUpAction",
     "when": "editorTextFocus && !editorReadonly"

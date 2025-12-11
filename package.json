@@ -35,8 +35,7 @@
     "keybindings"
   ],
   "activationEvents": [
-    "onView:hotkeysView",
-    "onCommand:hotkeys.refresh"
+    "onView:hotkeysView"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -69,22 +68,8 @@
         }
       ]
     },
-    "commands": [
-      {
-        "command": "hotkeys.refresh",
-        "title": "Refresh Hotkeys",
-        "category": "Hotkeys"
-      }
-    ],
-    "menus": {
-      "view/title": [
-        {
-          "command": "hotkeys.refresh",
-          "when": "view == hotkeysView",
-          "group": "navigation"
-        }
-      ]
-    }
+    "commands": [],
+    "menus": {}
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",

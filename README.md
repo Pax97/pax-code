@@ -32,17 +32,18 @@ Pax Code comes with two carefully crafted dark themes:
 - **Night Theme Vivid** - A more vibrant version with enhanced colors
 
 Both themes feature:
+
 - Semantic highlighting support
 - Optimized syntax colors for multiple languages
 - Easy on the eyes for long coding sessions
 
 ### ⌨️ Hotkeys Reference Panel
 
-Never forget your keyboard shortcuts again! Pax Code adds a **Hotkeys** panel to your Activity Bar that displays a organized list of useful keyboard shortcuts.
+Never forget your keyboard shortcuts again! Pax Code adds a **Hotkeys** panel to your Activity Bar that displays an organized list of useful keyboard shortcuts.
 
 - 📁 **Grouped by Category** - Font/Zoom, Editor Tabs, Explorer, Terminal, Selection/Editing
 - 🔍 **Quick Reference** - See hotkey combinations at a glance
-- 🔄 **Refresh Support** - Update the list with a single click
+- ⚡ **Auto-load** - Hotkeys are automatically loaded when VS Code starts
 
 ## 📦 Installation
 
@@ -72,17 +73,16 @@ code --install-extension pax-code-x.x.x.vsix
 
 1. Click on the **Hotkeys** icon in the Activity Bar (left sidebar)
 2. Expand categories to see available shortcuts
-3. Click the refresh button to reload the hotkeys list
 
 ## 📋 Hotkey Categories
 
-| Category | Description |
-|----------|-------------|
-| **Font / Zoom** | Zoom in/out, font size controls |
-| **Editor Tabs & Groups** | Tab navigation, split editors |
-| **Explorer / Sidebar** | File navigation, sidebar controls |
-| **Terminal** | Terminal focus and management |
-| **Selection / Editing** | Column selection, line operations |
+| Category                 | Description                       |
+| ------------------------ | --------------------------------- |
+| **Font / Zoom**          | Zoom in/out, font size controls   |
+| **Editor Tabs & Groups** | Tab navigation, split editors     |
+| **Explorer / Sidebar**   | File navigation, sidebar controls |
+| **Terminal**             | Terminal focus and management     |
+| **Selection / Editing**  | Column selection, line operations |
 
 ## ⚙️ Configuration
 
@@ -91,6 +91,7 @@ code --install-extension pax-code-x.x.x.vsix
 You can customize the hotkeys displayed in the panel by modifying the `hotkeys.json` file in the extension directory.
 
 Each hotkey entry supports:
+
 ```json
 {
   "group": "Category Name",
@@ -104,7 +105,7 @@ Each hotkey entry supports:
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+
 - Yarn or npm
 
 ### Setup
@@ -132,10 +133,6 @@ yarn package
 npx vsce package
 ```
 
-## 📝 Changelog
-
-See [CHANGELOG.md](CHANGELOG.md) for release notes.
-
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -149,11 +146,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Inspired by [One Dark Pro](https://github.com/Binaryify/OneDark-Pro) theme
-- VS Code Extension API documentation
 
 ---
 

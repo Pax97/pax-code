@@ -9,14 +9,14 @@
 </p>
 
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=sanglq.pax-code">
-    <img src="https://img.shields.io/visual-studio-marketplace/v/sanglq.pax-code?style=flat-square&label=VS%20Marketplace" alt="VS Marketplace Version">
+  <a href="https://marketplace.visualstudio.com/items?itemName=Pax97.pax-code">
+    <img src="https://img.shields.io/visual-studio-marketplace/v/Pax97.pax-code?style=flat-square&label=VS%20Marketplace" alt="VS Marketplace Version">
   </a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=sanglq.pax-code">
-    <img src="https://img.shields.io/visual-studio-marketplace/i/sanglq.pax-code?style=flat-square" alt="Installs">
+  <a href="https://marketplace.visualstudio.com/items?itemName=Pax97.pax-code">
+    <img src="https://img.shields.io/visual-studio-marketplace/i/Pax97.pax-code?style=flat-square" alt="Installs">
   </a>
-  <a href="https://github.com/sanglq/pax-code/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/sanglq/pax-code?style=flat-square" alt="License">
+  <a href="https://github.com/Pax97/pax-code/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/Pax97/pax-code?style=flat-square" alt="License">
   </a>
 </p>
 

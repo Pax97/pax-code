@@ -57,11 +57,4 @@ jobs:
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
 
-      - name: Publish to Open VSX Registry
-        if: ${{ !contains(github.ref, 'beta') && !contains(github.ref, 'alpha') }}
-        run: npx ovsx publish --no-dependencies
-        env:
-          OVSX_PAT: ${{ secrets.OVSX_PAT }}
-        continue-on-error: true
-
 

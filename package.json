@@ -2,17 +2,17 @@
   "name": "pax-code",
   "displayName": "Pax Code",
   "description": "A beautiful dark theme and keyboard shortcuts reference panel for VS Code",
-  "version": "0.1.1-beta",
-  "publisher": "sanglq",
+  "version": "1.0.0",
+  "publisher": "Pax97",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sanglq/pax-code"
+    "url": "https://github.com/Pax97/pax-code"
   },
   "bugs": {
-    "url": "https://github.com/sanglq/pax-code/issues"
+    "url": "https://github.com/Pax97/pax-code/issues"
   },
-  "homepage": "https://github.com/sanglq/pax-code#readme",
+  "homepage": "https://github.com/Pax97/pax-code#readme",
   "icon": "media/icon.png",
   "galleryBanner": {
     "color": "#1F1F1F",

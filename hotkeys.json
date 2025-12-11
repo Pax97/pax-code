@@ -47,6 +47,20 @@
   },
   {
     "group": "Editor Tabs & Groups",
+    "label": "Move to tab left",
+    "key": "ctrl+left",
+    "command": "workbench.action.previousEditor",
+    "when": "editorTextFocus"
+  },
+  {
+    "group": "Editor Tabs & Groups",
+    "label": "Move to tab right",
+    "key": "ctrl+right",
+    "command": "workbench.action.nextEditor",
+    "when": "editorTextFocus"
+  },
+  {
+    "group": "Editor Tabs & Groups",
     "label": "Move next group",
     "key": "ctrl+cmd+right",
     "command": "workbench.action.moveEditorToNextGroup"
@@ -196,18 +210,31 @@
   {
     "group": "Selection / Editing",
     "label": "Move to end file ↓",
-    "key": "alt+down",
+    "key": "cmd+down",
     "command": "-editor.action.moveLinesDownAction",
     "when": "editorTextFocus && !editorReadonly"
   },
   {
     "group": "Selection / Editing",
     "label": "Move to begin file ↑",
+    "key": "cmd+up",
+    "command": "-editor.action.moveLinesUpAction",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "group": "Selection / Editing",
+    "label": "Move line to ↑",
+    "key": "alt+down",
+    "command": "-editor.action.moveLinesDownAction",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "group": "Selection / Editing",
+    "label": "Move line to ↓",
     "key": "alt+up",
     "command": "-editor.action.moveLinesUpAction",
     "when": "editorTextFocus && !editorReadonly"
   },
-
   {
     "group": "Selection / Editing",
     "label": "Line below",

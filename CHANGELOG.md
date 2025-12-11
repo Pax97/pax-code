@@ -5,7 +5,11 @@ All notable changes to **Pax Code** extension will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Released]
+
+## [1.0.1] - 2025-12-11
+
+Update hotkeys.json and colors.json
 
 ## [1.0.0] - 2025-12-11
 
@@ -16,6 +20,7 @@ This is the first stable release of Pax Code extension!
 ## [0.1.1-beta] - 2025-12-11
 
 ### Added
+
 - 🎨 **Night Theme** - A comfortable dark theme with balanced contrast
 - 🎨 **Night Theme Vivid** - A vibrant dark theme with enhanced colors
 - ⌨️ **Hotkeys Panel** - Activity bar panel showing keyboard shortcuts reference
@@ -26,6 +31,7 @@ This is the first stable release of Pax Code extension!
   - Selection / Editing shortcuts
 
 ### Features
+
 - macOS-style keyboard icons for better readability:
   - `⌘` Command
   - `⌥` Option (Alt)
@@ -49,6 +55,7 @@ This is the first stable release of Pax Code extension!
   - And many more...
 
 ### Technical
+
 - ESBuild bundling for fast load times
 - TypeScript strict mode
 - GitHub Actions CI/CD workflow for automated releases
@@ -58,4 +65,3 @@ This is the first stable release of Pax Code extension!
 [Unreleased]: https://github.com/sanglq/pax-code/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/sanglq/pax-code/compare/v0.1.1-beta...v1.0.0
 [0.1.1-beta]: https://github.com/sanglq/pax-code/releases/tag/v0.1.1-beta
-

@@ -39,11 +39,39 @@ Both themes feature:
 
 ### ⌨️ Hotkeys Reference Panel
 
-Never forget your keyboard shortcuts again! Pax Code adds a **Hotkeys** panel to your Activity Bar that displays an organized list of useful keyboard shortcuts.
+Pax Code adds a **Hotkeys** panel to your Activity Bar for quick shortcut reference.
 
-- 📁 **Grouped by Category** - Font/Zoom, Editor Tabs, Explorer, Terminal, Selection/Editing
-- 🔍 **Quick Reference** - See hotkey combinations at a glance
-- ⚡ **Auto-load** - Hotkeys are automatically loaded when VS Code starts
+- 📁 **Grouped by Category** – Font/Zoom, Editor Tabs, Explorer, Terminal, Selection/Editing
+- 🔍 **Quick Reference** – View shortcuts at a glance
+- ⚡ **Auto-load** – Loaded automatically on VS Code start
+- 👤 **Profile-aware** – Hotkeys are isolated per VS Code Profile
+- ⚠️ **Validation & Warnings** – Invalid entries are detected and warned
+- 🚨 **Duplicate Highlighting** – Conflicting shortcuts are highlighted in red
+
+## 🧠 Smart Hotkey Validation
+
+When importing a `hotkeys.json` file, Pax Code performs automatic checks.
+
+### ✅ Schema Validation
+
+- Required fields:
+  - `group`
+  - `label`
+  - `key`
+  - `command`
+- Optional field:
+  - `when`
+- Invalid or missing fields trigger **warnings** (non-blocking)
+- Data is still loaded to avoid interrupting workflow
+
+### 🚨 Duplicate Shortcut Detection (key + when)
+
+- Shortcuts are considered duplicates **only if both `key` and `when` match**
+- Empty or missing `when` is treated as **global**
+- Duplicate entries:
+  - Trigger a warning during import
+  - Are highlighted with a **red error icon**
+  - Display a `DUPLICATE` label and tooltip in the Hotkeys panel
 
 ## 📦 Installation
 
@@ -74,30 +102,32 @@ code --install-extension pax-code-x.x.x.vsix
 1. Click on the **Hotkeys** icon in the Activity Bar (left sidebar)
 2. Expand categories to see available shortcuts
 
-## 📋 Hotkey Categories
-
-| Category                 | Description                       |
-| ------------------------ | --------------------------------- |
-| **Font / Zoom**          | Zoom in/out, font size controls   |
-| **Editor Tabs & Groups** | Tab navigation, split editors     |
-| **Explorer / Sidebar**   | File navigation, sidebar controls |
-| **Terminal**             | Terminal focus and management     |
-| **Selection / Editing**  | Column selection, line operations |
-
 ## ⚙️ Configuration
 
 ### Custom Hotkeys
 
-You can customize the hotkeys displayed in the panel by modifying the `hotkeys.json` file in the extension directory.
+Pax Code **does not require editing extension files directly**.
+Instead, you can import your own hotkeys configuration safely.
 
-Each hotkey entry supports:
+#### 1️⃣ Use the Sample Hotkeys File (Recommended)
+
+Start with the official sample file provided by Pax Code: [hotkeys.json](hotkeys.json)
+
+You can download this file and modify it to fit your workflow.
+
+---
+
+#### 2️⃣ Hotkeys JSON Format
+
+Each hotkey entry supports the following structure:
 
 ```json
 {
   "group": "Category Name",
   "label": "Action Description",
   "key": "cmd+shift+p",
-  "command": "workbench.action.showCommands"
+  "command": "workbench.action.showCommands",
+  "when": "editorTextFocus"
 }
 ```
 

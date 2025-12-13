@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Released]
 
+## [1.0.2](https://github.com/Pax97/pax-code/releases/tag/v1.0.2) - 2025-12-14
+
+### Added
+
+- **Hotkeys JSON Import**
+
+  - Import custom hotkeys using `Hotkeys: Import JSON`
+  - Hotkeys are stored securely using VS Code extension global storage
+  - Importing a new file overwrites the previous configuration per profile
+
+- **Schema Validation with Warnings**
+
+  - Validates imported JSON structure
+  - Required fields: `group`, `label`, `key`, `command`
+  - Optional field: `when`
+  - Invalid entries trigger non-blocking warnings
+
+- **Duplicate Shortcut Detection**
+
+  - Detects conflicting shortcuts based on **`key + when`**
+  - Treats missing or empty `when` as global context
+  - Displays warnings when duplicates are found
+
+- **Visual Conflict Highlighting**
+
+  - Duplicate shortcuts are highlighted with a red error icon in the Hotkeys panel
+  - Conflicting entries are labeled as `DUPLICATE`
+  - Tooltip shows detailed conflict information
+
+- **VS Code Profile Support**
+  - Hotkeys configuration is isolated per VS Code Profile
+  - Switching profiles automatically switches hotkeys
+  - No manual sync required
+
 ## [1.0.1] - 2025-12-11
 
 Update hotkeys.json and colors.json

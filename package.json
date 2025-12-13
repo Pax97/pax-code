@@ -2,7 +2,7 @@
   "name": "pax-code",
   "displayName": "Pax Code",
   "description": "A beautiful dark theme and keyboard shortcuts reference panel for VS Code",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "Pax97",
   "license": "MIT",
   "repository": {
@@ -68,7 +68,12 @@
         }
       ]
     },
-    "commands": [],
+    "commands": [
+      {
+        "command": "hotkeys.importJson",
+        "title": "Hotkeys: Import JSON"
+      }
+    ],
     "menus": {}
   },
   "scripts": {

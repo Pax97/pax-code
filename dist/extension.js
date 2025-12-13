@@ -36,10 +36,10 @@ __export(extension_exports, {
 module.exports = __toCommonJS(extension_exports);
 var vscode = __toESM(require("vscode"));
 function formatKey(key) {
-  const keyMap = {
+  const map = {
     cmd: "\u2318",
-    alt: "\u2325",
     ctrl: "\u2303",
+    alt: "\u2325",
     shift: "\u21E7",
     up: "\u2191",
     down: "\u2193",
@@ -48,83 +48,169 @@ function formatKey(key) {
     enter: "\u21B5",
     tab: "\u21E5",
     backspace: "\u232B",
-    space: "\u2423",
+    esc: "\u238B",
     escape: "\u238B",
-    esc: "\u238B"
+    space: "\u2423"
   };
-  return key.split("+").map((part) => {
-    const trimmed = part.trim().toLowerCase();
-    return keyMap[trimmed] || part.trim();
-  }).join(" ");
+  return key.split("+").map((p) => map[p.trim().toLowerCase()] || p.trim()).join(" ");
+}
+function validateHotkeys(data) {
+  const errors = [];
+  if (!Array.isArray(data)) {
+    return ["Root must be array"];
+  }
+  data.forEach((item, i) => {
+    if (typeof item !== "object" || item === null) {
+      errors.push(`Item #${i} is not object`);
+      return;
+    }
+    for (const f of ["group", "label", "key", "command"]) {
+      if (typeof item[f] !== "string" || !item[f].trim()) {
+        errors.push(`Item #${i} missiong/wrong '${f}'`);
+      }
+    }
+    if (item.when !== void 0 && typeof item.when !== "string") {
+      errors.push(`Item #${i} field 'when' wrong type`);
+    }
+  });
+  return errors;
+}
+function normalizeWhen(when) {
+  return when && when.trim() || "__GLOBAL__";
+}
+function collectDuplicateKeyWhen(items) {
+  const map = /* @__PURE__ */ new Map();
+  const dup = /* @__PURE__ */ new Set();
+  for (const i of items) {
+    const sig = i.key.trim().toLowerCase() + "||" + normalizeWhen(i.when);
+    map.set(sig, (map.get(sig) || 0) + 1);
+  }
+  for (const [sig, count] of map) {
+    if (count > 1) dup.add(sig);
+  }
+  return dup;
 }
 function activate(context) {
   const provider = new HotkeysProvider(context);
-  const treeView = vscode.window.createTreeView("hotkeysView", {
+  vscode.window.createTreeView("hotkeysView", {
     treeDataProvider: provider
   });
-  context.subscriptions.push(treeView);
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      "hotkeys.importJson",
+      () => provider.importJson()
+    )
+  );
+  provider.loadFromStorage();
 }
 function deactivate() {
 }
 var HotkeysProvider = class {
   constructor(context) {
     this.context = context;
-    this.loadHotkeys();
+    this.storageFile = vscode.Uri.joinPath(
+      context.globalStorageUri,
+      "hotkeys.json"
+    );
   }
   _onDidChangeTreeData = new vscode.EventEmitter();
   onDidChangeTreeData = this._onDidChangeTreeData.event;
   items = [];
-  isLoaded = false;
-  async loadHotkeys() {
+  duplicateSet = /* @__PURE__ */ new Set();
+  storageFile;
+  /* ===== Import JSON ===== */
+  async importJson() {
+    const uri = await vscode.window.showOpenDialog({
+      canSelectMany: false,
+      filters: { JSON: ["json"] }
+    });
+    if (!uri) return;
+    const bytes = await vscode.workspace.fs.readFile(uri[0]);
+    const content = Buffer.from(bytes).toString("utf8");
+    let parsed;
     try {
-      const fileUri = vscode.Uri.joinPath(
-        this.context.extensionUri,
-        "hotkeys.json"
+      parsed = JSON.parse(content);
+    } catch {
+      vscode.window.showErrorMessage("JSON is invalid");
+      return;
+    }
+    const schemaErrors = validateHotkeys(parsed);
+    if (schemaErrors.length) {
+      vscode.window.showWarningMessage(
+        "Hotkeys JSON is errors:\n" + schemaErrors.slice(0, 5).join("\n")
       );
-      const bytes = await vscode.workspace.fs.readFile(fileUri);
+    }
+    const items = parsed;
+    const duplicates = collectDuplicateKeyWhen(items);
+    if (duplicates.size) {
+      vscode.window.showWarningMessage(
+        "Shortcut is duplicate (key + when):\n" + Array.from(duplicates).slice(0, 5).map((s) => s.replace("||", " | when: ")).join("\n")
+      );
+    }
+    await vscode.workspace.fs.createDirectory(this.context.globalStorageUri);
+    await vscode.workspace.fs.writeFile(
+      this.storageFile,
+      Buffer.from(JSON.stringify(items, null, 2), "utf8")
+    );
+    this.items = items;
+    this.duplicateSet = duplicates;
+    this._onDidChangeTreeData.fire();
+  }
+  /* ===== Load persistent ===== */
+  async loadFromStorage() {
+    try {
+      const bytes = await vscode.workspace.fs.readFile(this.storageFile);
       const content = Buffer.from(bytes).toString("utf8");
       this.items = JSON.parse(content);
-      this.isLoaded = true;
+      this.duplicateSet = collectDuplicateKeyWhen(this.items);
       this._onDidChangeTreeData.fire();
-    } catch (err) {
-      vscode.window.showErrorMessage(
-        `Cannot load hotkeys.json: ${String(err)}`
-      );
+    } catch {
       this.items = [];
-      this.isLoaded = true;
+      this.duplicateSet.clear();
     }
   }
+  /* ========================= */
   getTreeItem(element) {
     return element;
   }
   getChildren(element) {
     if (!element) {
       const groups = Array.from(new Set(this.items.map((i) => i.group)));
-      const groupNodes = groups.map((group) => {
-        const node = new HotkeyNode(
-          group,
-          vscode.TreeItemCollapsibleState.Collapsed
-        );
-        node.isGroup = true;
-        node.group = group;
-        return node;
-      });
-      return Promise.resolve(groupNodes);
+      return Promise.resolve(
+        groups.map((g) => {
+          const node = new HotkeyNode(
+            g,
+            vscode.TreeItemCollapsibleState.Collapsed
+          );
+          node.isGroup = true;
+          node.group = g;
+          return node;
+        })
+      );
     }
     if (element.isGroup && element.group) {
-      const children = this.items.filter((i) => i.group === element.group).map((i) => {
-        const formattedKey = formatKey(i.key);
-        const node = new HotkeyNode(
-          `( ${formattedKey} ) \u2B95 ${i.label}`,
-          vscode.TreeItemCollapsibleState.None
-        );
-        node.isGroup = false;
-        node.group = i.group;
-        node.keyBinding = i.key;
-        node.commandId = i.command;
-        return node;
-      });
-      return Promise.resolve(children);
+      return Promise.resolve(
+        this.items.filter((i) => i.group === element.group).map((i) => {
+          const sig = i.key.trim().toLowerCase() + "||" + normalizeWhen(i.when);
+          const isDuplicate = this.duplicateSet.has(sig);
+          const label = `( ${formatKey(i.key)} ) \u2192 ${i.label}`;
+          const node = new HotkeyNode(
+            label,
+            vscode.TreeItemCollapsibleState.None
+          );
+          if (isDuplicate) {
+            node.iconPath = new vscode.ThemeIcon(
+              "error",
+              new vscode.ThemeColor("errorForeground")
+            );
+            node.description = "DUPLICATE";
+            node.tooltip = `Shortcut is dupicate
+Key: ${i.key}
+When: ${i.when || "global"}`;
+          }
+          return node;
+        })
+      );
     }
     return Promise.resolve([]);
   }
@@ -132,8 +218,6 @@ var HotkeysProvider = class {
 var HotkeyNode = class extends vscode.TreeItem {
   isGroup = false;
   group;
-  keyBinding;
-  commandId;
   constructor(label, collapsibleState) {
     super(label, collapsibleState);
   }
